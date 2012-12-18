@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.Assert;
 
-public class PerfTest {
+public class DecoderPerfTest {
 	private static final int ITERATIONS = 10000;
 	/**
 	 * @param args
@@ -45,7 +45,6 @@ public class PerfTest {
 
 			System.out.format("Msg/s %f%n", (double)ITERATIONS * 3 * src.length / (end - start) * 1000 );
 		}
-		//System.out.println(PairDataReader.ccc);
 	}
 
 }

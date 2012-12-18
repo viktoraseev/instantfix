@@ -6,7 +6,7 @@ public class PairDataReader {
 	private static final byte EQUALS_SIGN = '=';
 	private static final byte SOH = '\1';
 	private static final int shift = Integer.MIN_VALUE;
-	private byte[] prevBuf;
+	private byte[] prevBuf = new byte[0];
 	private byte[] newBuf = new byte[0];
 	private int beginPos; // pointer on first symbol
 	private int equalsPos; // pointer on equals symbol
@@ -86,7 +86,13 @@ public class PairDataReader {
 			return;
 		} else if (headerFound && !valueFound) {
 			//header found, value not found
-			if (beginPos >= 0) {
+			if (beginPos - shift == prevBuf.length) {
+				beginPos = shift;
+				equalsPos += shift;
+				prevBuf = newBuf;
+				newBuf = buf;
+				return;
+			} else if (beginPos >= 0) {
 				prevBuf = newBuf;
 				beginPos += shift;
 				equalsPos +=shift;
@@ -107,8 +113,13 @@ public class PairDataReader {
 			}
 		} else if (!headerFound && !valueFound) {
 			// value & header not found
-			if (beginPos >= 0) {
-				// TODO fix copying empty arrays
+			if (beginPos - shift == prevBuf.length) {
+				beginPos = shift;
+				equalsPos += shift;
+				prevBuf = newBuf;
+				newBuf = buf;
+				return;
+			} else if (beginPos >= 0) {
 				prevBuf = newBuf;
 				beginPos += shift;
 				newBuf = buf;
@@ -180,5 +191,11 @@ public class PairDataReader {
 		if (!headerFound || !valueFound)
 			throw new IllegalStateException("Can't call read until parse returned true");
 		return 0;
+	}
+	
+	public ByteString readByteString() {
+		if (!headerFound || !valueFound)
+			throw new IllegalStateException("Can't call read until parse returned true");
+		return null;
 	}
 }
