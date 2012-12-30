@@ -1,4 +1,4 @@
-package com.eveenah.instantfix;
+package com.eveena.instantfix;
 
 import java.io.UnsupportedEncodingException;
 
