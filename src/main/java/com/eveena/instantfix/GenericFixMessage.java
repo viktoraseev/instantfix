@@ -1,6 +1,6 @@
-package com.eveenah.instantfix;
+package com.eveena.instantfix;
 
-public class GenericFix {
+public class GenericFixMessage {
 	private String beginString;
 	private String senderCompID;
 	private String targetCompID;

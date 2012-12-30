@@ -4,6 +4,10 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.Assert;
 
+import com.eveena.instantfix.Decoder;
+import com.eveena.instantfix.GenericFixFiller;
+import com.eveena.instantfix.GenericFixMessage;
+
 public class DecoderPerfTest {
 	private static final int ITERATIONS = 10000;
 	/**
@@ -20,8 +24,8 @@ public class DecoderPerfTest {
 			throw new RuntimeException("unsupported ISO??");
 		}
 
-		Decoder<GenericFix> dc = new Decoder<GenericFix>(
-				new Filler());
+		Decoder<GenericFixMessage> dc = new Decoder<GenericFixMessage>(
+				new GenericFixFiller());
 		dc.decode();
 		for(int k=0;k<10;k++) {
 			long start = System.currentTimeMillis();

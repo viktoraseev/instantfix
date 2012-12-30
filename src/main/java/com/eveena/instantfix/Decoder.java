@@ -1,4 +1,4 @@
-package com.eveenah.instantfix;
+package com.eveena.instantfix;
 
 /**
  * Parsing algorithm: </br>
@@ -36,7 +36,7 @@ public class Decoder <T> {
 	public T decode() {
 		while(preservePair || data.parse()) {
 			preservePair = false;
-			if (data.headerEquals(Filler.beginString)) {
+			if (data.headerEquals(GenericFixFiller.beginString)) {
 				if (msg == null) {
 					// new message found
 					// TODO change to filler.newObj(String type) 
@@ -55,7 +55,7 @@ public class Decoder <T> {
 				continue;
 			}
 			filler.fill(msg, data);
-			if (data.headerEquals(Filler.checkSum)) {
+			if (data.headerEquals(GenericFixFiller.checkSum)) {
 				//found end of message. reset current msg and return it
 				T r = msg;
 				msg = null;

@@ -1,4 +1,4 @@
-package com.eveenah.instantfix;
+package com.eveena.instantfix;
 
 
 
@@ -184,18 +184,62 @@ public class PairDataReader {
 	public String readString() {
 		if (!headerFound || !valueFound)
 			throw new IllegalStateException("Can't call read until parse returned true");
-		return null;
+		
+		int begin = equalsPos + 1;
+		if (begin - shift == prevBuf.length)
+			begin = 0;
+
+		int end = sohPos - 1;
+		if (end == -1)
+			end = prevBuf.length -1 + shift; 
+		
+		if (begin == end + 1)
+			return ""; // constant
+		
+		if (begin >= 0 && end >= 0) {
+			return new String(newBuf, begin, end - begin + 1);
+		} else if (begin < 0 && end < 0 ) {
+			return new String(prevBuf, begin - shift, end - begin + 1);
+		}
+		// split data
+		begin = begin - shift;
+		byte[] mergedBuf = new byte[(prevBuf.length - begin) + (end + 1)];
+		System.arraycopy(prevBuf, begin, mergedBuf, 0, (prevBuf.length - begin));
+		System.arraycopy(newBuf, 0, mergedBuf, (prevBuf.length - begin), end + 1);
+		
+		return new String(mergedBuf);
 	}
 
 	public int readInt() {
 		if (!headerFound || !valueFound)
 			throw new IllegalStateException("Can't call read until parse returned true");
-		return 0;
+		return Integer.parseInt(readString()); //TODO optimize
 	}
-	
-	public ByteString readByteString() {
+
+	public String readHeader() {
 		if (!headerFound || !valueFound)
 			throw new IllegalStateException("Can't call read until parse returned true");
-		return null;
+		
+		int begin = beginPos;
+
+		int end = equalsPos - 1;
+		if (end == -1)
+			end = prevBuf.length -1 + shift; 
+		
+		if (begin == end + 1)
+			return ""; // constant
+		
+		if (begin >= 0 && end >= 0) {
+			return new String(newBuf, begin, end - begin + 1);
+		} else if (begin < 0 && end < 0 ) {
+			return new String(prevBuf, begin - shift, end - begin + 1);
+		}
+		// split data
+		begin = begin - shift;
+		byte[] mergedBuf = new byte[(prevBuf.length - begin) + (end + 1)];
+		System.arraycopy(prevBuf, begin, mergedBuf, 0, (prevBuf.length - begin));
+		System.arraycopy(newBuf, 0, mergedBuf, (prevBuf.length - begin), end + 1);
+		
+		return new String(mergedBuf);
 	}
 }

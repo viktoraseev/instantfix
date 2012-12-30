@@ -5,6 +5,10 @@ import java.io.UnsupportedEncodingException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.eveena.instantfix.Decoder;
+import com.eveena.instantfix.GenericFixFiller;
+import com.eveena.instantfix.GenericFixMessage;
+
 public class DecoderTest {
 
 	@Test
@@ -16,7 +20,7 @@ public class DecoderTest {
 		byte[] src;
 		src = msg.getBytes("ISO-8859-1");
 		
-		Decoder<GenericFix> dc = new Decoder<GenericFix>(new Filler());
+		Decoder<GenericFixMessage> dc = new Decoder<GenericFixMessage>(new GenericFixFiller());
 		for (int i = 0; i < src.length; i++) {
 			byte[] a = new byte[i];
 			byte[] b = new byte[src.length - i];

@@ -1,4 +1,4 @@
-package com.eveenah.instantfix;
+package com.eveena.instantfix;
 
 public interface IFiller <T> {
 	void fill(T msg, PairDataReader data);
