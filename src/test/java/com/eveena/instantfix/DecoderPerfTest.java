@@ -24,9 +24,28 @@ public class DecoderPerfTest {
 			throw new RuntimeException("unsupported ISO??");
 		}
 
-		Decoder<GenericFixMessage> dc = new Decoder<GenericFixMessage>(
-				new GenericFixFiller());
+		// GenericFix
+		Decoder<?> dc = new Decoder<GenericFixMessage>(new GenericFixFiller());
 		dc.decode();
+		System.gc();
+		System.out.println("GenericFixMessage");
+		testDecoder(src, dc);
+		
+		dc = new Decoder<ByteFixMessage>(new ByteFixFiller());
+		dc.decode();
+		System.gc();
+		System.out.println("ByteFixMessage");
+		testDecoder(src, dc);
+		
+		
+		dc = new Decoder<TupleFixMessage>(new TupleFixFiller());
+		dc.decode();
+		System.gc();
+		System.out.println("TupleFixMessage");
+		testDecoder(src, dc);
+		
+	}
+	private static void testDecoder(byte[] src, Decoder<?> dc) {
 		for(int k=0;k<10;k++) {
 			long start = System.currentTimeMillis();
 			for(int j=0;j<ITERATIONS;j++) {
