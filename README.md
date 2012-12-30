@@ -3,37 +3,7 @@ instantfix
 
 Micro library for parsing fix messages as fast as possible, retrieving only needed information.
 
-Benchmark tests(Intel core i5 2.5 GHz):
-GenericFixMessage
-Msg/s 888333.927934
-Msg/s 969752.044658
-Msg/s 960771.704180
-Msg/s 962504.831852
-Msg/s 963373.742584
-Msg/s 967240.709569
-Msg/s 968997.275911
-Msg/s 966239.813737
-Msg/s 970003.895598
-Msg/s 964866.959442
-ByteFixMessage
-Msg/s 1489531.405783
-Msg/s 1546904.120936
-Msg/s 1561128.526646
-Msg/s 1559824.598037
-Msg/s 1558197.747184
-Msg/s 1559824.598037
-Msg/s 1560802.340159
-Msg/s 1558522.845817
-Msg/s 1548186.528497
-Msg/s 1525423.728814
-TupleFixMessage
-Msg/s 588050.066913
-Msg/s 589163.183216
-Msg/s 597839.135654
-Msg/s 597313.289621
-Msg/s 594035.785288
-Msg/s 598509.734797
-Msg/s 598174.247277
-Msg/s 595931.392102
-Msg/s 592668.993970
-Msg/s 597408.829175
+Benchmark test(Intel core i5 2.5 GHz):
+* ByteFixMessage Msg/s 1561128.526646
+* GenericFixMessage  Msg/s 970003.895598
+* TupleFixMessage Msg/s 598509.734797
