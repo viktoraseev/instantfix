@@ -181,9 +181,36 @@ public class PairDataReader {
 		return parse();
 	}
 	
+	public ByteString readByteString() {
+		checkReadStatus();
+		
+		int begin = equalsPos + 1;
+		if (begin - shift == prevBuf.length)
+			begin = 0;
+
+		int end = sohPos - 1;
+		if (end == -1)
+			end = prevBuf.length -1 + shift; 
+		
+		if (begin == end + 1)
+			return ByteString.EMPTY; // constant
+		
+		if (begin >= 0 && end >= 0) {
+			return new ByteString(newBuf, begin, end - begin + 1);
+		} else if (begin < 0 && end < 0 ) {
+			return new ByteString(prevBuf, begin - shift, end - begin + 1);
+		}
+		// split data
+		begin = begin - shift;
+		byte[] mergedBuf = new byte[(prevBuf.length - begin) + (end + 1)];
+		System.arraycopy(prevBuf, begin, mergedBuf, 0, (prevBuf.length - begin));
+		System.arraycopy(newBuf, 0, mergedBuf, (prevBuf.length - begin), end + 1);
+		
+		return new ByteString(mergedBuf);
+	}
+
 	public String readString() {
-		if (!headerFound || !valueFound)
-			throw new IllegalStateException("Can't call read until parse returned true");
+		checkReadStatus();
 		
 		int begin = equalsPos + 1;
 		if (begin - shift == prevBuf.length)
@@ -211,14 +238,17 @@ public class PairDataReader {
 	}
 
 	public int readInt() {
-		if (!headerFound || !valueFound)
-			throw new IllegalStateException("Can't call read until parse returned true");
+		checkReadStatus();
 		return Integer.parseInt(readString()); //TODO optimize
 	}
 
-	public String readHeader() {
+	private void checkReadStatus() {
 		if (!headerFound || !valueFound)
 			throw new IllegalStateException("Can't call read until parse returned true");
+	}
+
+	public String readHeader() {
+		checkReadStatus();
 		
 		int begin = beginPos;
 

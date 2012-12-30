@@ -9,8 +9,6 @@ public class GenericFixMessage {
 	private String clOrdID;
 	private String origClOrdID;
 	private int checkSum;
-	private String error;
-	private boolean garbled;
 
 	public String getBeginString() {
 		return beginString;
@@ -75,21 +73,4 @@ public class GenericFixMessage {
 	public void setCheckSum(int checkSum) {
 		this.checkSum = checkSum;
 	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-
-	public boolean isGarbled() {
-		return garbled;
-	}
-
-	public void setGarbled(boolean garbled) {
-		this.garbled = garbled;
-	}
-
 }
